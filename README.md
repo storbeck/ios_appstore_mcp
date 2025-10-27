@@ -31,24 +31,5 @@ MCP Tool
   - `working_well`: Review[]
 
 Example Output (truncated)
-{
-  "appId": "1420058690",
-  "country": "us",
-  "totalFetched": 120,
-  "needs_fixing": [
-    { "id": "...", "rating": 1, "author": "...", "content": "..." }
-  ],
-  "working_well": [
-    { "id": "...", "rating": 5, "author": "...", "content": "..." }
-  ]
-}
+<img width="1520" height="749" alt="image" src="https://github.com/user-attachments/assets/399736a5-3620-4e97-87b2-9e6b4d06f47b" />
 
-How classification works
-- Rating <= 2 → needs_fixing
-- Rating >= 4 → working_well
-- Otherwise simple keyword checks; default 3-star goes to needs_fixing for actionability
-
-Notes
-- Apple’s RSS feed includes an app metadata entry as the first `feed.entry`; reviews begin at `entry[1]`.
-- Pagination is followed via `feed.link` entries with `rel="next"`.
-- The server uses stdio transport. Configure it with your MCP-compatible client to call the tool.
