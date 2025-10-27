@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+set -euo pipefail
+if ! command -v noseyparker >/dev/null 2>&1; then
+  echo "[noseyparker] Not installed. Install: https://github.com/praetorian-inc/noseyparker"
+  echo "[noseyparker] Proceeding without scan."
+  exit 0
+fi
+mapfile -t FILES < <(git diff --cached --name-only --diff-filter=ACMR)
+[[ ${#FILES[@]} -eq 0 ]] && exit 0
+TMPDIR=$(mktemp -d 2>/dev/null || mktemp -d -t np)
+trap 'rm -rf "$TMPDIR"' EXIT INT TERM
+for f in "${FILES[@]}"; do
+  if git cat-file -e ":$f" 2>/dev/null; then
+    mkdir -p "$TMPDIR/$(dirname "$f")"
+    git show ":$f" > "$TMPDIR/$f" || true
+  fi
+done
+DATASTORE="$TMPDIR/datastore"
+noseyparker scan --datastore "$DATASTORE" "$TMPDIR" >/dev/null 2>&1 || { echo "[noseyparker] scan failed"; exit 1; }
+REPORT=$(noseyparker report --datastore "$DATASTORE" 2>/dev/null || true)
+if [[ -n "$(echo "$REPORT" | sed 's/[[:space:]]//g')" ]]; then
+  echo "[noseyparker] Potential secrets detected in staged changes."; echo "---"; echo "$REPORT" | sed -n '1,200p'; echo "---"; exit 1; fi
+exit 0
