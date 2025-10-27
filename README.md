@@ -30,6 +30,16 @@ MCP Tool
   - `needs_fixing`: Review[]
   - `working_well`: Review[]
 
-Example Output (truncated)
-<img width="1520" height="749" alt="image" src="https://github.com/user-attachments/assets/399736a5-3620-4e97-87b2-9e6b4d06f47b" />
+Codex config.toml
+```
+[mcp_servers.appstore_reviews]
+command = "node"
+args = ["/home/$USER/repos/ios_appstore_mcp/dist/server.js"]
+
+[projects."/home/$USER/projects/ios_appstore_mcp"]
+trust_level = "trusted"
+```
+
+Example Output 
+<img width="1563" height="811" alt="image" src="https://github.com/user-attachments/assets/ef73b8bb-c116-4125-a5c9-23a1b80eff72" />
 
