@@ -10,8 +10,6 @@ Features
 - Exposes an MCP tool returning structured output suitable for agent workflows.
 - Includes a small CLI for quick local use/testing.
 
-Blog post lives in your personal blog: `~/Documents/blog/posts/creating-appstore-mcp-server.md`
-
 Install
 - Node 18+ recommended
 - Install dependencies: `npm install`
